@@ -7,8 +7,14 @@
     if (tocToggle) tocToggle.setAttribute('aria-expanded', String(open));
   };
   if (tocToggle && pageToc) {
+    tocToggle.hidden = false;
+    tocToggle.style.removeProperty('display');
     tocToggle.addEventListener('click', () => setTocOpen(true));
-    document.querySelectorAll('[data-toc-close]').forEach(button => button.addEventListener('click', () => setTocOpen(false)));
+    document.querySelectorAll('[data-toc-close]').forEach(button => {
+      button.hidden = false;
+      button.style.removeProperty('display');
+      button.addEventListener('click', () => setTocOpen(false));
+    });
     pageToc.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setTocOpen(false)));
     document.addEventListener('keydown', event => { if (event.key === 'Escape') setTocOpen(false); });
   }
