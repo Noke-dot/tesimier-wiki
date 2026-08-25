@@ -1,7 +1,17 @@
 
 (() => {
-  const toggle = document.querySelector('[data-sidebar-toggle]');
-  if (toggle) toggle.addEventListener('click', () => document.body.classList.toggle('sidebar-open'));
+  const tocToggle = document.querySelector('[data-toc-toggle]');
+  const pageToc = document.querySelector('[data-page-toc]');
+  const setTocOpen = open => {
+    document.body.classList.toggle('toc-open', open);
+    if (tocToggle) tocToggle.setAttribute('aria-expanded', String(open));
+  };
+  if (tocToggle && pageToc) {
+    tocToggle.addEventListener('click', () => setTocOpen(true));
+    document.querySelectorAll('[data-toc-close]').forEach(button => button.addEventListener('click', () => setTocOpen(false)));
+    pageToc.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setTocOpen(false)));
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') setTocOpen(false); });
+  }
   const input = document.querySelector('[data-search-input]');
   const results = document.querySelector('[data-search-results]');
   if (!input || !results) return;
